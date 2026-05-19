@@ -121,8 +121,10 @@ export default function DealsPage({ deals, capRateMap, boeMap, onOpenDeal, onAdd
 
   const FILTER_CHIPS = [
     { label: 'All', value: 'all' },
-    { label: 'New', value: '1 - New' },
+    { label: 'Underwriting', value: '0 - Underwriting' },
     { label: 'Active', value: '2 - Active' },
+    { label: 'New', value: '1 - New' },
+    { label: 'Tracking', value: '1.5 - Tracking' },
     { label: 'Bid Placed', value: '3 - Bid Placed' },
     { label: 'Dormant', value: '5 - Dormant' },
     { label: 'Passed', value: '6 - Passed' },
@@ -341,7 +343,7 @@ export default function DealsPage({ deals, capRateMap, boeMap, onOpenDeal, onAdd
                       <small style={{ display: 'block', fontSize: 12, color: '#8A9BB0', fontWeight: 400, marginTop: 1 }}>
                         {deal.market}
                         {reg !== 'Misc' && <span style={{ marginLeft: 4, background: 'rgba(13,27,46,0.06)', color: '#8A9BB0', fontSize: 9, fontWeight: 600, padding: '1px 5px', borderRadius: 3 }}>{REGION_LABELS[reg]}</span>}
-                        {deal.broker && (deal.status.includes('1 -') || deal.status.includes('2 -') || deal.status.includes('3 -')) && (
+                        {deal.broker && (deal.status.includes('0 -') || deal.status.includes('1 -') || deal.status.includes('1.5 -') || deal.status.includes('2 -') || deal.status.includes('3 -')) && (
                           <span style={{ marginLeft: 4, background: 'rgba(240,151,10,0.12)', color: '#b87200', fontSize: 9, fontWeight: 700, padding: '1px 6px', borderRadius: 4 }}>{deal.broker}</span>
                         )}
                       </small>
