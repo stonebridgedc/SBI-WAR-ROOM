@@ -121,7 +121,7 @@ export default function DealsPage({ deals, capRateMap, boeMap, onOpenDeal, onAdd
 
   const FILTER_CHIPS = [
     { label: 'All', value: 'all' },
-    { label: 'Underwritten', value: '0 - Underwritten' },
+    { label: 'Underwriting', value: '0 - Underwriting' },
     { label: 'Active', value: '2 - Active' },
     { label: 'New', value: '1 - New' },
     { label: 'Tracking', value: '1.5 - Tracking' },
