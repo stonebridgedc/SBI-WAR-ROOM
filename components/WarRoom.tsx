@@ -266,9 +266,10 @@ export default function WarRoom({ initialDeals, initialBoeData, initialCapRates,
     return acc
   }, {})
 
-  const NAV: { id: Page; label: string; icon: React.ReactNode; badgeKey?: string }[] = [
+  const activePipelineCount = (statusCounts['0 - Underwriting'] ?? 0) + (statusCounts['1 - New'] ?? 0) + (statusCounts['2 - Active'] ?? 0) + (statusCounts['1.5 - Tracking'] ?? 0)
+
     { id: 'dashboard', label: 'Dashboard', icon: <GridIcon /> },
-    { id: 'deals', label: 'Deals', icon: <ListIcon />, badgeKey: '1 - New' },
+    { id: 'deals', label: 'Deals', icon: <ListIcon />, badgeKey: 'activePipeline' },
     { id: 'pipeline', label: 'Pipeline', icon: <PipeIcon />, badgeKey: '2 - Active' },
     { id: 'analytics',  label: 'Analytics',        icon: <ChartIcon /> },
     { id: 'map',        label: 'Market Map',       icon: <MapIcon /> },
@@ -314,9 +315,9 @@ export default function WarRoom({ initialDeals, initialBoeData, initialCapRates,
                 }}>
                   <span style={{ opacity: page===n.id ? 1 : 0.6 }}>{n.icon}</span>
                   <span style={{ flex:1 }}>{n.label}</span>
-                  {n.badgeKey && (statusCounts[n.badgeKey] ?? 0) > 0 && (
+                  {n.badgeKey && (n.badgeKey === 'activePipeline' ? activePipelineCount : (statusCounts[n.badgeKey] ?? 0)) > 0 && (
                     <span style={{ background:'#C9A84C', color:'#0D1B2E', borderRadius:10, padding:'1px 7px', fontSize:10, fontWeight:700 }}>
-                      {statusCounts[n.badgeKey]}
+                      {n.badgeKey === 'activePipeline' ? activePipelineCount : statusCounts[n.badgeKey]}
                     </span>
                   )}
                 </button>
@@ -362,9 +363,9 @@ export default function WarRoom({ initialDeals, initialBoeData, initialCapRates,
             }}>
               <span style={{ opacity: page === n.id ? 1 : 0.6 }}>{n.icon}</span>
               <span style={{ flex: 1 }}>{n.label}</span>
-              {n.badgeKey && (statusCounts[n.badgeKey] ?? 0) > 0 && (
+              {n.badgeKey && (n.badgeKey === 'activePipeline' ? activePipelineCount : (statusCounts[n.badgeKey] ?? 0)) > 0 && (
                 <span style={{ background: '#C9A84C', color: '#0D1B2E', borderRadius: 10, padding: '1px 7px', fontSize: 10, fontWeight: 700 }}>
-                  {statusCounts[n.badgeKey]}
+                  {n.badgeKey === 'activePipeline' ? activePipelineCount : statusCounts[n.badgeKey]}
                 </span>
               )}
             </button>
