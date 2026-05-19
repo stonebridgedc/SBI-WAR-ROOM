@@ -328,7 +328,8 @@ export default function DashboardPage({ deals, capRateMap, boeMap, onOpenDeal }:
   }, [deals, capRateMap])
   const avgAllTimeCapRate = allTimeCapRates.length ? allTimeCapRates.reduce((s, v) => s + v, 0) / allTimeCapRates.length : null
 
-  const activeDealsList = active.sort((a, b) => (b.modified ?? '').localeCompare(a.modified ?? '')).slice(0, 8)
+  const underwriting = deals.filter(d => d.status === '0 - Underwriting')
+  const activeDealsList = underwriting.sort((a, b) => (b.modified ?? '').localeCompare(a.modified ?? '')).slice(0, 8)
   const marketData = useMemo(() => {
     const counts: Record<string, number> = {}
     deals.filter(d => d.added && new Date(d.added).getFullYear() === 2026).forEach(d => {
@@ -413,7 +414,7 @@ export default function DashboardPage({ deals, capRateMap, boeMap, onOpenDeal }:
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 12, marginBottom: 20 }}>
         {[
           { label: 'New Deals', value: newDeals.length.toString(), sub: 'currently in pipeline', accent: '#C9A84C' },
-          { label: 'Active Deals', value: active.length.toString(), sub: 'in active pursuit', accent: '#2E6B9E' },
+          { label: 'Underwritten Deals', value: underwriting.length.toString(), sub: 'currently underwritten', accent: '#2E6B9E' },
           { label: 'Avg Active Guidance', value: avgActiveGuidance ? fmtBig(avgActiveGuidance) : '—', sub: 'avg ask price · active deals', accent: '#2E7D50' },
           { label: 'Avg Active Cap Rate', value: avgActiveCapRate ? `${avgActiveCapRate.toFixed(2)}%` : '—', sub: `${activeCapRates.length} active deals w/ BOE`, accent: '#6B3FA0' },
           { label: 'Avg Cap Rate All Time', value: avgAllTimeCapRate ? `${avgAllTimeCapRate.toFixed(2)}%` : '—', sub: `2025–present · ${allTimeCapRates.length} deals`, accent: '#1E7A6E' },
@@ -531,8 +532,8 @@ export default function DashboardPage({ deals, capRateMap, boeMap, onOpenDeal }:
 
             <div style={card}>
               <div style={{ padding: '10px 16px', borderBottom: '1px solid rgba(13,27,46,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 17, fontWeight: 700, color: '#0D1B2E' }}>Active Deals</div>
-                <div style={{ fontSize: 10, color: '#8A9BB0' }}>{active.length} deals</div>
+                <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 17, fontWeight: 700, color: '#0D1B2E' }}>Underwritten Deals</div>
+                <div style={{ fontSize: 10, color: '#8A9BB0' }}>{underwriting.length} deals</div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 0.8fr 0.8fr 1fr 1fr 1fr', gap: 16, padding: '7px 18px', borderBottom: '1px solid rgba(13,27,46,0.04)', background: 'rgba(13,27,46,0.02)', justifyItems: 'center' }}>
                 {['Deal', 'Guidance', 'Cap Rate', 'Seller', 'Broker', 'Bid Due'].map(h => (
@@ -541,7 +542,7 @@ export default function DashboardPage({ deals, capRateMap, boeMap, onOpenDeal }:
               </div>
               <div style={{ overflowY: 'auto' as const, maxHeight: 290 }}>
                 {activeDealsList.length === 0 ? (
-                  <div style={{ padding: 16, color: '#8A9BB0', fontSize: 12 }}>No active deals</div>
+                  <div style={{ padding: 16, color: '#8A9BB0', fontSize: 12 }}>No underwritten deals</div>
                 ) : activeDealsList.map((deal, i) => {
                   const cr = capRateMap[deal.name]
                   const capRate = cr?.noi_cap_rate ? `${Number(cr.noi_cap_rate).toFixed(2)}%` : '—'
