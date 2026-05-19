@@ -267,7 +267,7 @@ export default function WarRoom({ initialDeals, initialBoeData, initialCapRates,
   }, {})
 
   const activePipelineCount = (statusCounts['0 - Underwriting'] ?? 0) + (statusCounts['1 - New'] ?? 0) + (statusCounts['2 - Active'] ?? 0) + (statusCounts['1.5 - Tracking'] ?? 0)
-
+  const NAV: { id: Page; label: string; icon: React.ReactNode; badgeKey?: string }[] = [
     { id: 'dashboard', label: 'Dashboard', icon: <GridIcon /> },
     { id: 'deals', label: 'Deals', icon: <ListIcon />, badgeKey: 'activePipeline' },
     { id: 'pipeline', label: 'Pipeline', icon: <PipeIcon />, badgeKey: '2 - Active' },
