@@ -29,7 +29,7 @@ export const REGION_MAP: Record<Region, string[]> = {
   TX: ['Dallas, TX','Houston, TX','Austin, TX','San Antonio, TX','Misc - Texas'],
   TN: ['Nashville, TN','Misc - Tennessee'],
   FL: ['Jacksonville, FL','Orlando, FL','Tampa, FL','South Florida','Naples/Fort Myers, FL','Misc - Florida'],
-  Midwest: ['Chicago, IL','Indianapolis, IN','Minneapolis, MN','Kansas City, MO','Cincinnati, OH','Misc - Midwest'],
+  Midwest: ['Chicago, IL','Indianapolis, IN','Minneapolis, MN','Kansas City, MO','Cincinnati, OH','Milwaukee, WI','Misc - Midwest'],
   Misc: [],
 }
 

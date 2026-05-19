@@ -514,6 +514,7 @@ export default function DealsPage({ deals, capRateMap, boeMap, onOpenDeal, onAdd
                       <option value="Minneapolis, MN">Minneapolis, MN</option>
                       <option value="Kansas City, MO">Kansas City, MO</option>
                       <option value="Cincinnati, OH">Cincinnati, OH</option>
+                      <option value="Milwaukee, WI">Milwaukee, WI</option>
                       <option value="Misc - Midwest">Misc</option>
                       <option value="__custom__">Other (type below)…</option>
                     </>)}
