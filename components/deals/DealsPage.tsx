@@ -66,7 +66,7 @@ export default function DealsPage({ deals, capRateMap, boeMap, onOpenDeal, onAdd
 
   const filtered = useMemo(() => {
     let d = deals
-    if (!filters.has('all')) d = d.filter(x => Array.from(filters).some(f => x.status.includes(f.split(' - ')[0] + ' -')))
+    if (!filters.has('all')) d = d.filter(x => Array.from(filters).some(f => x.status === f))
     if (!regions.has('all')) d = d.filter(x => regions.has(getRegion(x.market)))
     if (!brokers.has('all')) d = d.filter(x => brokers.has(getBrokerBucket(x.broker)))
     if (search) {
