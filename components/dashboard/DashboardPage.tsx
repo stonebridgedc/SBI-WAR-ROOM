@@ -312,6 +312,7 @@ export default function DashboardPage({ deals, capRateMap, boeMap, onOpenDeal }:
   const totalGuidance = useMemo(() => [...newDeals, ...active].filter(d => d.purchase_price).reduce((s, d) => s + d.purchase_price!, 0), [newDeals, active])
   const avgCapRate = useMemo(() => { const crs = Object.values(capRateMap).filter(c => c.noi_cap_rate).map(c => Number(c.noi_cap_rate)); return crs.length ? crs.reduce((s, v) => s + v, 0) / crs.length : 0 }, [capRateMap])
 
+  const underwriting = deals.filter(d => d.status === "0 - Underwriting")
   // Pipeline + UW KPI stats
   const totalPipelineCount = deals.filter(d => ["0 - Underwriting","1 - New","2 - Active","1.5 - Tracking"].includes(d.status)).length
   const uwGuidancePrices = useMemo(() => underwriting.filter(d => d.purchase_price).map(d => d.purchase_price!), [underwriting])
@@ -328,7 +329,7 @@ export default function DashboardPage({ deals, capRateMap, boeMap, onOpenDeal }:
   }, [deals, capRateMap])
   const avgAllTimeCapRate = allTimeCapRates.length ? allTimeCapRates.reduce((s, v) => s + v, 0) / allTimeCapRates.length : null
 
-  const underwriting = deals.filter(d => d.status === '0 - Underwriting')
+
   const activeDealsList = underwriting.sort((a, b) => (b.modified ?? '').localeCompare(a.modified ?? '')).slice(0, 8)
   const marketData = useMemo(() => {
     const counts: Record<string, number> = {}
