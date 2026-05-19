@@ -312,12 +312,12 @@ export default function DashboardPage({ deals, capRateMap, boeMap, onOpenDeal }:
   const totalGuidance = useMemo(() => [...newDeals, ...active].filter(d => d.purchase_price).reduce((s, d) => s + d.purchase_price!, 0), [newDeals, active])
   const avgCapRate = useMemo(() => { const crs = Object.values(capRateMap).filter(c => c.noi_cap_rate).map(c => Number(c.noi_cap_rate)); return crs.length ? crs.reduce((s, v) => s + v, 0) / crs.length : 0 }, [capRateMap])
 
-  // New KPI stats
-  const activeGuidancePrices = useMemo(() => active.filter(d => d.purchase_price).map(d => d.purchase_price!), [active])
-  const avgActiveGuidance = activeGuidancePrices.length ? activeGuidancePrices.reduce((s, v) => s + v, 0) / activeGuidancePrices.length : null
-
-  const activeCapRates = useMemo(() => active.map(d => capRateMap[d.name]).filter(cr => cr?.noi_cap_rate).map(cr => Number(cr.noi_cap_rate)), [active, capRateMap])
-  const avgActiveCapRate = activeCapRates.length ? activeCapRates.reduce((s, v) => s + v, 0) / activeCapRates.length : null
+  // Pipeline + UW KPI stats
+  const totalPipelineCount = deals.filter(d => ["0 - Underwriting","1 - New","2 - Active","1.5 - Tracking"].includes(d.status)).length
+  const uwGuidancePrices = useMemo(() => underwriting.filter(d => d.purchase_price).map(d => d.purchase_price!), [underwriting])
+  const avgUwGuidance = uwGuidancePrices.length ? uwGuidancePrices.reduce((s, v) => s + v, 0) / uwGuidancePrices.length : null
+  const uwCapRates = useMemo(() => underwriting.map(d => capRateMap[d.name]).filter(cr => cr?.noi_cap_rate).map(cr => Number(cr.noi_cap_rate)), [underwriting, capRateMap])
+  const avgUwCapRate = uwCapRates.length ? uwCapRates.reduce((s, v) => s + v, 0) / uwCapRates.length : null
 
   const allTimeCapRates = useMemo(() => {
     return deals.filter(d => {
@@ -413,10 +413,10 @@ export default function DashboardPage({ deals, capRateMap, boeMap, onOpenDeal }:
       {/* KPI Strip */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 12, marginBottom: 20 }}>
         {[
-          { label: 'New Deals', value: newDeals.length.toString(), sub: 'currently in pipeline', accent: '#C9A84C' },
+          { label: 'Total Pipeline', value: totalPipelineCount.toString(), sub: 'currently in pipeline', accent: '#C9A84C' },
           { label: 'Underwritten Deals', value: underwriting.length.toString(), sub: 'currently underwritten', accent: '#2E6B9E' },
-          { label: 'Avg Active Guidance', value: avgActiveGuidance ? fmtBig(avgActiveGuidance) : '—', sub: 'avg ask price · active deals', accent: '#2E7D50' },
-          { label: 'Avg Active Cap Rate', value: avgActiveCapRate ? `${avgActiveCapRate.toFixed(2)}%` : '—', sub: `${activeCapRates.length} active deals w/ BOE`, accent: '#6B3FA0' },
+          { label: 'Avg UW Guidance', value: avgUwGuidance ? fmtBig(avgUwGuidance) : '—', sub: 'avg ask price · underwriting deals', accent: '#2E7D50' },
+          { label: 'Avg UW Cap Rate', value: avgUwCapRate ? `${avgUwCapRate.toFixed(2)}%` : '—', sub: `${uwCapRates.length} UW deals w/ BOE`, accent: '#6B3FA0' },
           { label: 'Avg Cap Rate All Time', value: avgAllTimeCapRate ? `${avgAllTimeCapRate.toFixed(2)}%` : '—', sub: `2025–present · ${allTimeCapRates.length} deals`, accent: '#1E7A6E' },
         ].map(s => (
           <div key={s.label} style={{ ...card, padding: '18px 20px', borderTop: `3px solid ${s.accent}` }}>
